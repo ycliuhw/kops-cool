@@ -6,6 +6,7 @@ import (
 
 // CmdArgs - parameters for cmds
 type CmdArgs struct {
+	Action      string
 	Env         string
 	AccountName string
 	VpcID       string
@@ -13,32 +14,51 @@ type CmdArgs struct {
 	Debug       bool
 }
 
-// Init config files and dirs for a new cluster
-func Init(args CmdArgs) string {
-	fmt.Printf("Initing... with args -> %+v\n", args)
+// Do - exec CMD
+func (args CmdArgs) Do() string {
+
+	switch args.Action {
+	case "new":
+		return new(args)
+	case "build":
+		return build(args)
+	case "diff":
+		return diff(args)
+	case "apply":
+		return apply(args)
+	case "install":
+		return install(args)
+	default:
+		panic(args.Action + " is not supported!!!")
+	}
+}
+
+// new config files and dirs for a new cluster
+func new(args CmdArgs) string {
+	fmt.Printf("new... with args -> %+v\n", args)
 	return "Done!"
 }
 
-// Build cluster template
-func Build(args CmdArgs) string {
-	fmt.Printf("Building... with args -> %+v\n", args)
+// build cluster template
+func build(args CmdArgs) string {
+	fmt.Printf("build... with args -> %+v\n", args)
 	return "Done!"
 }
 
-// Diff cluster template
-func Diff(args CmdArgs) string {
-	fmt.Printf("Diffing... with args -> %+v\n", args)
+// diff cluster template
+func diff(args CmdArgs) string {
+	fmt.Printf("diff... with args -> %+v\n", args)
 	return "Done!"
 }
 
-// Apply cluster template
-func Apply(args CmdArgs) string {
-	fmt.Printf("Applying... with args -> %+v\n", args)
+// apply cluster template
+func apply(args CmdArgs) string {
+	fmt.Printf("apply... with args -> %+v\n", args)
 	return "Done!"
 }
 
-// Install cluster addons
-func Install(args CmdArgs) string {
-	fmt.Printf("Installing... with args -> %+v\n", args)
+// install cluster addons
+func install(args CmdArgs) string {
+	fmt.Printf("install... with args -> %+v\n", args)
 	return "Done!"
 }
