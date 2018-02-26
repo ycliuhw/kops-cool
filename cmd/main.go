@@ -16,7 +16,7 @@ const (
 
 func main() {
 
-	fmt.Printf("\nHello, %s! Kforce is here ✌️✌️✌️\n%s\n\n", Author, strings.Repeat("-", 100))
+	fmt.Printf("\nHello, %s! Kforce is here ✌️  ✌️  ✌️\n%s\n\n", Author, strings.Repeat("-", 100))
 
 	argv := new(kforce.CmdArgs)
 
