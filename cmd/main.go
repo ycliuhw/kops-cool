@@ -31,7 +31,7 @@ func main() {
 
 	flagSet.Parse(os.Args[2:])
 
-	argv.Action = os.Args[1]
+	action := os.Args[1]
 
-	fmt.Printf("%s... with args -> %s\n", argv.Action, argv.Do())
+	fmt.Printf("%s... with args -> %s\n", action, argv.Do(action))
 }
