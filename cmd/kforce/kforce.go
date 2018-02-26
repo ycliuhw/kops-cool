@@ -64,7 +64,9 @@ func (args CmdArgs) Do() string {
 	case "install":
 		return args.install()
 	default:
-		panic(action + " is not supported!!!")
+		fmt.Printf("%s is not supported!!!", action)
+		// os.Exit(1)
+		return "not good!"
 	}
 }
 
