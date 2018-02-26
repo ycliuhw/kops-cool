@@ -6,7 +6,6 @@ import (
 
 // CmdArgs - parameters for cmds
 type CmdArgs struct {
-	Action      string
 	Env         string
 	AccountName string
 	VpcID       string
@@ -15,9 +14,9 @@ type CmdArgs struct {
 }
 
 // Do - exec CMD
-func (args CmdArgs) Do() string {
+func (args CmdArgs) Do(action string) string {
 
-	switch args.Action {
+	switch action {
 	case "new":
 		return args.new()
 	case "build":
@@ -29,7 +28,7 @@ func (args CmdArgs) Do() string {
 	case "install":
 		return args.install()
 	default:
-		panic(args.Action + " is not supported!!!")
+		panic(action + " is not supported!!!")
 	}
 }
 
