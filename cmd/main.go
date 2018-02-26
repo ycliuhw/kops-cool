@@ -1,9 +1,7 @@
 package main
 
 import (
-	"flag"
 	"fmt"
-	"os"
 	"strings"
 
 	"./kforce"
@@ -17,21 +15,10 @@ const (
 )
 
 func main() {
+
 	fmt.Printf("\nHello, %s! Kforce is here ✌️\n%s\n\n", Author, strings.Repeat("-", 100))
 
 	argv := new(kforce.CmdArgs)
 
-	flagSet := flag.NewFlagSet("", flag.ExitOnError)
-
-	flagSet.StringVar(&argv.Env, "Env", "REQUIRED", "one of [u|s|p|m]")
-	flagSet.StringVar(&argv.AccountName, "AccountName", "No AccountName", "aws account name")
-	flagSet.StringVar(&argv.VpcID, "VpcID", "no VpcID", "Vpc ID: vpc-xxxxx")
-	flagSet.StringVar(&argv.Region, "Region", "no Region", "aws region")
-	flagSet.BoolVar(&argv.Debug, "Debug", false, "enable debug or not")
-
-	flagSet.Parse(os.Args[2:])
-
-	action := os.Args[1]
-
-	fmt.Printf("%s... with args -> %s\n", action, argv.Do(action))
+	fmt.Printf("Doing -> %s\n", argv.Do())
 }
