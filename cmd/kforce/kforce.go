@@ -19,46 +19,46 @@ func (args CmdArgs) Do() string {
 
 	switch args.Action {
 	case "new":
-		return new(args)
+		return args.new()
 	case "build":
-		return build(args)
+		return args.build()
 	case "diff":
-		return diff(args)
+		return args.diff()
 	case "apply":
-		return apply(args)
+		return args.apply()
 	case "install":
-		return install(args)
+		return args.install()
 	default:
 		panic(args.Action + " is not supported!!!")
 	}
 }
 
 // new config files and dirs for a new cluster
-func new(args CmdArgs) string {
+func (args CmdArgs) new() string {
 	fmt.Printf("new... with args -> %+v\n", args)
 	return "Done!"
 }
 
 // build cluster template
-func build(args CmdArgs) string {
+func (args CmdArgs) build() string {
 	fmt.Printf("build... with args -> %+v\n", args)
 	return "Done!"
 }
 
 // diff cluster template
-func diff(args CmdArgs) string {
+func (args CmdArgs) diff() string {
 	fmt.Printf("diff... with args -> %+v\n", args)
 	return "Done!"
 }
 
 // apply cluster template
-func apply(args CmdArgs) string {
+func (args CmdArgs) apply() string {
 	fmt.Printf("apply... with args -> %+v\n", args)
 	return "Done!"
 }
 
 // install cluster addons
-func install(args CmdArgs) string {
+func (args CmdArgs) install() string {
 	fmt.Printf("install... with args -> %+v\n", args)
 	return "Done!"
 }
