@@ -17,7 +17,7 @@ type CmdArgs struct {
 }
 
 // Init CmdArgs
-func (args CmdArgs) validate() (string, CmdArgs) {
+func (args *CmdArgs) getArgs() string {
 	const REQUIRED = "REQUIRED"
 
 	flagSet := flag.NewFlagSet("", flag.ExitOnError)
@@ -32,8 +32,8 @@ func (args CmdArgs) validate() (string, CmdArgs) {
 
 	action := os.Args[1]
 
-	fields := reflect.TypeOf(args)
-	values := reflect.ValueOf(args)
+	fields := reflect.TypeOf(*args)
+	values := reflect.ValueOf(*args)
 	num := fields.NumField()
 	for i := 0; i < num; i++ {
 		field := fields.Field(i)
@@ -43,14 +43,14 @@ func (args CmdArgs) validate() (string, CmdArgs) {
 		}
 		// fmt.Print("Type:", field.Type, ",", field.Name, "=", value, value.Interface(), "\n")
 	}
-	return action, args
+	return action
 }
 
 // Do - exec CMD
-func (args CmdArgs) Do() string {
+func (args *CmdArgs) Do() string {
 	// reflect.ValueOf(&args).MethodByName(action).Call([]reflect.Value{})
 
-	action, args := args.validate()
+	action := args.getArgs()
 
 	switch action {
 	case "new":
@@ -71,31 +71,31 @@ func (args CmdArgs) Do() string {
 }
 
 // new config files and dirs for a new cluster
-func (args CmdArgs) new() string {
+func (args *CmdArgs) new() string {
 	fmt.Printf("new... with args -> %+v\n", args)
 	return "new Done!"
 }
 
 // build cluster template
-func (args CmdArgs) build() string {
+func (args *CmdArgs) build() string {
 	fmt.Printf("build... with args -> %+v\n", args)
 	return "build Done!"
 }
 
 // diff cluster template
-func (args CmdArgs) diff() string {
+func (args *CmdArgs) diff() string {
 	fmt.Printf("diff... with args -> %+v\n", args)
 	return "diff Done!"
 }
 
 // apply cluster template
-func (args CmdArgs) apply() string {
+func (args *CmdArgs) apply() string {
 	fmt.Printf("apply... with args -> %+v\n", args)
 	return "apply Done!"
 }
 
 // install cluster addons
-func (args CmdArgs) install() string {
+func (args *CmdArgs) install() string {
 	fmt.Printf("install... with args -> %+v\n", args)
 	return "install Done!"
 }

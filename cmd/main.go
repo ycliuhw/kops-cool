@@ -18,7 +18,7 @@ func main() {
 
 	fmt.Printf("\nHello, %s! Kforce is here ✌️  ✌️  ✌️\n%s\n\n", Author, strings.Repeat("-", 100))
 
-	argv := new(kforce.CmdArgs)
+	var argv kforce.CmdArgs
 
 	fmt.Printf("Doing -> %s\n", argv.Do())
 }
