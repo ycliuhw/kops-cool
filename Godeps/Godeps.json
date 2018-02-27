@@ -1,0 +1,22 @@
+{
+	"ImportPath": "github.com/ycliuhw/kops-cool",
+	"GoVersion": "go1.10",
+	"GodepVersion": "v80",
+	"Deps": [
+		{
+			"ImportPath": "github.com/inconshreveable/mousetrap",
+			"Comment": "v1.0",
+			"Rev": "76626ae9c91c4f2a10f34cad8ce83ea42c93bb75"
+		},
+		{
+			"ImportPath": "github.com/spf13/cobra",
+			"Comment": "v0.0.1-31-ga1e4933",
+			"Rev": "a1e4933ab784095895e33dbe9f001ba10cfe2060"
+		},
+		{
+			"ImportPath": "github.com/spf13/pflag",
+			"Comment": "v1.0.0-12-gee5fd03",
+			"Rev": "ee5fd03fd6acfd43e44aea0b4135958546ed8e73"
+		}
+	]
+}
