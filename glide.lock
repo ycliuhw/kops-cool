@@ -1,6 +1,0 @@
-hash: 7200a991b7eb7469ff26abd41910f22bfd5162be83e8346a10434b58db361221
-updated: 2018-02-25T23:26:34.499225+11:00
-imports:
-- name: github.com/kubernetes/kops
-  version: 94ef2027bed84f7335b5f3aa37f3fec99eb04089
-testImports: []
