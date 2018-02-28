@@ -2,6 +2,7 @@ package kforce
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/spf13/cobra"
 )
@@ -13,8 +14,9 @@ type New struct {
 	requiredPaths []string
 }
 
-func (c *New) exec() {
+func (c *New) exec() error {
 	fmt.Print("this is New.exec()!")
+	return nil
 }
 
 func init() {
@@ -27,6 +29,9 @@ var newCmd = &cobra.Command{
 	Long:  `Deploy...`,
 	Run: func(cmd *cobra.Command, args []string) {
 		c := New{}
-		c.exec()
+		if err := c.exec(); err != nil {
+			fmt.Fprintf(os.Stderr, "%v\n", err)
+			os.Exit(1)
+		}
 	},
 }
