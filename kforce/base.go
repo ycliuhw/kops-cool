@@ -35,43 +35,45 @@ func Execute() {
 	}
 }
 
-// Command - parent Command
-type Command struct {
-	Env           string
-	AccountName   string
-	VpcID         string
-	Region        string
-	Debug         bool
-	requiredPaths []string
+// exitWithError will terminate execution with an error result
+// It prints the error to stderr and exits with a non-zero exit code
+func exitWithError(err error) {
+	fmt.Fprintf(os.Stderr, "\n%v\n", err)
+	os.Exit(1)
 }
 
-func (c *Command) preHook() {
+// // Command - parent Command
+// type Command struct {
+// 	Env           string
+// 	AccountName   string
+// 	VpcID         string
+// 	Region        string
+// 	Debug         bool
+// 	requiredPaths []string
+// }
 
-}
+// func (c *Command) preHook() {
 
-func (c *Command) postHook() {
+// }
 
-}
+// func (c *Command) postHook() {
 
-// Do -
-func (c *Command) Do() {
-	// prepare
-	c.preHook()
-	// do whatever u like
-	c.exec()
-	// clean up
-	c.postHook()
-}
+// }
 
-func (c *Command) exec() {
-	panic("this is Command.exec()! It has to be overloaded!!!")
-}
+// // Do -
+// func (c *Command) Do() {
+// 	// prepare
+// 	c.preHook()
+// 	// do whatever u like
+// 	c.exec()
+// 	// clean up
+// 	c.postHook()
+// }
 
-func getRequiredPaths(c Command) []string {
-	return c.requiredPaths
-}
+// func (c *Command) exec() {
+// 	panic("this is Command.exec()! It has to be overloaded!!!")
+// }
 
-// // Command - interface
-// type Command interface {
-// 	getRequiredPaths() []string
+// func getRequiredPaths(c Command) []string {
+// 	return c.requiredPaths
 // }

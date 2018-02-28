@@ -2,7 +2,6 @@ package kforce
 
 import (
 	"fmt"
-	"os"
 
 	"github.com/spf13/cobra"
 )
@@ -29,8 +28,7 @@ var buildCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		c := Build{}
 		if err := c.exec(); err != nil {
-			fmt.Fprintf(os.Stderr, "%v\n", err)
-			os.Exit(1)
+			exitWithError(err)
 		}
 	},
 }

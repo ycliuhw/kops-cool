@@ -2,7 +2,6 @@ package kforce
 
 import (
 	"fmt"
-	"os"
 
 	"github.com/spf13/cobra"
 )
@@ -25,12 +24,14 @@ func init() {
 var applyCmd = &cobra.Command{
 	Use:   "apply",
 	Short: "kforce apply",
-	Long:  `Deploy...`,
+	Long: `Deploy ...
+				  ...
+				  ...
+	`,
 	Run: func(cmd *cobra.Command, args []string) {
 		c := Apply{}
 		if err := c.exec(); err != nil {
-			fmt.Fprintf(os.Stderr, "%v\n", err)
-			os.Exit(1)
+			exitWithError(err)
 		}
 	},
 }
