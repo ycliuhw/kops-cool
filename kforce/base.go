@@ -16,22 +16,50 @@ const (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "kforce",
-	Short: "Kforce is tool for creating and managing k8s cluster using kops templates",
-	Long: `Kforce is tool for creating and managing k8s cluster using kops templates!
-		Complete document is here ->
+	Use:   "kforce ✌️  ✌️  ✌️",
+	Short: "Kforce is a tool for creating and managing k8s cluster using kops yaml templates",
+	Long: `Kforce is a tool for creating and managing k8s cluster using kops yaml templates!
+		To get complete document, plz visit ->
 		https://github.com/ycliuhw/kops-cool`,
-	Run: func(cmd *cobra.Command, args []string) {
+	PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
 		// Do Stuff Here
-		fmt.Printf("\nHello, %s! Kforce is here ✌️  ✌️  ✌️\n%s\n\n", Author, strings.Repeat("-", 100))
+		fmt.Println(fmt.Sprintf("\nHello, Kforce is made with 💝  by %s ✌️  ✌️  ✌️", Author))
+		fmt.Println(strings.Repeat("-", 100))
+		fmt.Println()
+
+		err := InitializeState(&state)
+		if err != nil {
+			return err
+		}
+		return nil
 	},
+}
+
+var state = State{}
+
+func init() {
+	rootCmd.PersistentFlags().StringVarP(&state.env, "env", "e", "", "one of [u|s|p|m]")
+	rootCmd.MarkPersistentFlagRequired("env")
+	rootCmd.PersistentFlags().StringVarP(&state.accountName, "account_name", "", "", "AWS account name")
+	rootCmd.MarkPersistentFlagRequired("account_name")
+	rootCmd.PersistentFlags().StringVarP(&state.vpcID, "vpc_id", "", "", "Vpc ID: vpc-xxxxx")
+	rootCmd.MarkPersistentFlagRequired("vpc_id")
+	rootCmd.PersistentFlags().StringVarP(&state.region, "region", "r", "ap-southeast-2", "AWS region")
+	rootCmd.PersistentFlags().BoolVarP(&state.debug, "debug", "", false, "enable debug or not")
+
+	rootCmd.AddCommand(NewCmdNew(&state))
+	rootCmd.AddCommand(NewCmdApply(&state))
+	rootCmd.AddCommand(NewCmdBuild(&state))
+	rootCmd.AddCommand(NewCmdDiff(&state))
+	rootCmd.AddCommand(NewCmdInstall(&state))
+	rootCmd.AddCommand(versionCmd)
+
 }
 
 // Execute -
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+		exitWithError(err)
 	}
 }
 
@@ -41,39 +69,3 @@ func exitWithError(err error) {
 	fmt.Fprintf(os.Stderr, "\n%v\n", err)
 	os.Exit(1)
 }
-
-// // Command - parent Command
-// type Command struct {
-// 	Env           string
-// 	AccountName   string
-// 	VpcID         string
-// 	Region        string
-// 	Debug         bool
-// 	requiredPaths []string
-// }
-
-// func (c *Command) preHook() {
-
-// }
-
-// func (c *Command) postHook() {
-
-// }
-
-// // Do -
-// func (c *Command) Do() {
-// 	// prepare
-// 	c.preHook()
-// 	// do whatever u like
-// 	c.exec()
-// 	// clean up
-// 	c.postHook()
-// }
-
-// func (c *Command) exec() {
-// 	panic("this is Command.exec()! It has to be overloaded!!!")
-// }
-
-// func getRequiredPaths(c Command) []string {
-// 	return c.requiredPaths
-// }

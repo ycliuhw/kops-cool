@@ -8,7 +8,6 @@ import (
 
 // Diff - Command to Diff configuration/templates
 type Diff struct {
-	Command
 	requiredPaths []string
 }
 
@@ -17,18 +16,20 @@ func (c *Diff) exec() error {
 	return nil
 }
 
-func init() {
-	rootCmd.AddCommand(diffCmd)
-}
-
-var diffCmd = &cobra.Command{
-	Use:   "diff",
-	Short: "kforce diff",
-	Long:  `Deploy...`,
-	Run: func(cmd *cobra.Command, args []string) {
-		c := Diff{}
-		if err := c.exec(); err != nil {
-			exitWithError(err)
-		}
-	},
+// NewCmdDiff -
+func NewCmdDiff(s *State) *cobra.Command {
+	var diffCmd = &cobra.Command{
+		Use:   "diff",
+		Short: "kforce diff",
+		Long:  `Deploy...`,
+		Run: func(cmd *cobra.Command, args []string) {
+			c := Diff{}
+			if err := c.exec(); err != nil {
+				exitWithError(err)
+			}
+		},
+	}
+	// add additional flags for Cmd New
+	// ...
+	return diffCmd
 }
