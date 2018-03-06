@@ -18,11 +18,12 @@ const (
 var ENVS = [4]string{s, u, p, m}
 
 // Command -
-type Command func(s State) error
+type Command func(s *State) error
 
 // SubCMD -
 type SubCMD interface {
 	exec(s *State) error
+	getRequiredPaths(s *State) []string
 }
 
 // State - state and util funcs
@@ -104,7 +105,7 @@ func InitializeState(state *State) error {
 	state.clusterSnippetsDir = filepath.Join(state.DirTemplate, "snippets")
 	state.clusterTemplatePath = filepath.Join(state.DirTemplate, "cluster.yaml")
 
-	state.requiredPaths = []string{state.DirRoot, state.DirTemplate, state.DirAddon, state.DirTmp}
+	state.requiredPaths = []string{state.DirTemplate, state.DirAddon, state.currentValueFilePath, state.clusterTemplatePath}
 
 	fmt.Printf("InitializeState: state -> \n%s\n", state)
 	return nil
@@ -156,7 +157,7 @@ func (s *State) preRun() error {
 
 	// run pre steps
 	for _, f := range s.preHooks {
-		err := f(*s)
+		err := f(s)
 		if err != nil {
 			fmt.Println(err)
 			return err
@@ -169,7 +170,7 @@ func (s *State) postRun() error {
 
 	// run pre steps
 	for _, f := range s.postHooks {
-		err := f(*s)
+		err := f(s)
 		if err != nil {
 			fmt.Println(err)
 			return err
@@ -180,14 +181,17 @@ func (s *State) postRun() error {
 
 // BuildCMD - build cmd
 func BuildCMD(subCmd SubCMD) Command {
-	return func(s State) error {
+	return func(s *State) error {
+
+		s.requiredPaths = subCmd.getRequiredPaths(s)
+
 		err := s.preRun()
 		if err != nil {
 			fmt.Println(err)
 			return err
 		}
 
-		err = subCmd.exec(&s)
+		err = subCmd.exec(s)
 		if err != nil {
 			fmt.Println(err)
 			return err

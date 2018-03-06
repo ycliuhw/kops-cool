@@ -31,6 +31,10 @@ func (c New) exec(s *State) error {
 	return nil
 }
 
+func (c New) getRequiredPaths(s *State) []string {
+	return c.requiredPaths
+}
+
 // NewCmdNew -
 func NewCmdNew(s *State) *cobra.Command {
 	newCmd := &cobra.Command{
@@ -38,12 +42,13 @@ func NewCmdNew(s *State) *cobra.Command {
 		Short: "kforce new",
 		Long:  `Deploy...`,
 		Run: func(cmd *cobra.Command, args []string) {
-			new := New{}
 			var c SubCMD
+
+			new := New{requiredPaths: []string{s.DirTemplate, s.DirAddon, s.clusterTemplatePath}}
 			c = new
 			fmt.Printf("newCmd: args -> %+v\n", strings.Join(args, " "))
 			fmt.Printf("newCmd: state -> %s\n", s)
-			if err := BuildCMD(c)(*s); err != nil {
+			if err := BuildCMD(c)(s); err != nil {
 				exitWithError(err)
 			}
 		},

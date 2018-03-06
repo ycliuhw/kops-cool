@@ -11,9 +11,17 @@ type Apply struct {
 	requiredPaths []string
 }
 
-func (c *Apply) exec() error {
+func (c Apply) exec(s *State) error {
 	fmt.Print("this is Apply.exec()!")
 	return nil
+}
+
+func (c Apply) getRequiredPaths(s *State) []string {
+	paths := c.requiredPaths
+	for _, path := range c.requiredPaths {
+		paths = append(paths, path)
+	}
+	return paths
 }
 
 // NewCmdApply -
@@ -26,8 +34,11 @@ func NewCmdApply(s *State) *cobra.Command {
 				  ...
 	`,
 		Run: func(cmd *cobra.Command, args []string) {
-			c := Apply{}
-			if err := c.exec(); err != nil {
+			var c SubCMD
+
+			apply := Apply{requiredPaths: []string{s.templateRenderedPath}}
+			c = apply
+			if err := BuildCMD(c)(s); err != nil {
 				exitWithError(err)
 			}
 		},
