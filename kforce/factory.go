@@ -20,6 +20,11 @@ var ENVS = [4]string{s, u, p, m}
 // Command -
 type Command func(s State) error
 
+// SubCMD -
+type SubCMD interface {
+	exec(s *State) error
+}
+
 // State - state and util funcs
 type State struct {
 	env         string
@@ -82,8 +87,6 @@ func InitializeState(state *State) error {
 		return err
 	}
 
-	state.requiredPaths = []string{state.DirRoot, state.DirTemplate, state.DirAddon, state.DirTmp}
-
 	state.DirRoot, _ = os.Getwd()
 	state.DirTemplate = filepath.Join(state.DirRoot, "templates")
 	state.DirAddon = filepath.Join(state.DirTemplate, "addons")
@@ -100,6 +103,8 @@ func InitializeState(state *State) error {
 	state.currentSnippetsDir = filepath.Join(state.currentVarsDir, fmt.Sprintf("%s-snippets", state.env))
 	state.clusterSnippetsDir = filepath.Join(state.DirTemplate, "snippets")
 	state.clusterTemplatePath = filepath.Join(state.DirTemplate, "cluster.yaml")
+
+	state.requiredPaths = []string{state.DirRoot, state.DirTemplate, state.DirAddon, state.DirTmp}
 
 	fmt.Printf("InitializeState: state -> \n%s\n", state)
 	return nil
@@ -118,20 +123,21 @@ func (s *State) addRequiredPath(path string) {
 }
 
 func (s *State) ensurePaths() error {
+	fmt.Println("requiredPaths -> ", len(s.requiredPaths))
 	for _, path := range s.requiredPaths {
-		fmt.Printf("\tChecking path -> %s\n", path)
+		fmt.Println("\tChecking path -> ", path)
 		p, err := os.Stat(path)
 		if err != nil {
-			fmt.Println(err)
+			fmt.Println("\t\t", err)
 			return err
 		}
 		switch mode := p.Mode(); {
 		case mode.IsDir():
 			// do directory stuff
-			fmt.Printf("%s is directory", path)
+			fmt.Println("\t\tdirectory -> ", path)
 		case mode.IsRegular():
 			// do file stuff
-			fmt.Printf("%s is file", path)
+			fmt.Println("\t\tfile -> ", path)
 		default:
 			return fmt.Errorf("Not exist -> %s", path)
 		}
@@ -173,7 +179,7 @@ func (s *State) postRun() error {
 }
 
 // BuildCMD - build cmd
-func BuildCMD(cmd Command) Command {
+func BuildCMD(subCmd SubCMD) Command {
 	return func(s State) error {
 		err := s.preRun()
 		if err != nil {
@@ -181,7 +187,7 @@ func BuildCMD(cmd Command) Command {
 			return err
 		}
 
-		err = cmd(s)
+		err = subCmd.exec(&s)
 		if err != nil {
 			fmt.Println(err)
 			return err

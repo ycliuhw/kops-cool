@@ -16,7 +16,7 @@ type New struct {
 	DirRawTemplate string
 }
 
-func (c *New) exec(s *State) error {
+func (c New) exec(s *State) error {
 	fmt.Print("this is New.exec()!")
 	s.requiredPaths = c.requiredPaths
 
@@ -38,12 +38,14 @@ func NewCmdNew(s *State) *cobra.Command {
 		Short: "kforce new",
 		Long:  `Deploy...`,
 		Run: func(cmd *cobra.Command, args []string) {
-			// c := New{}
+			new := New{}
+			var c SubCMD
+			c = new
 			fmt.Printf("newCmd: args -> %+v\n", strings.Join(args, " "))
 			fmt.Printf("newCmd: state -> %s\n", s)
-			// if err := c.exec(); err != nil {
-			// 	exitWithError(err)
-			// }
+			if err := BuildCMD(c)(*s); err != nil {
+				exitWithError(err)
+			}
 		},
 	}
 	// add additional flags for Cmd New
