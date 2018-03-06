@@ -1,5 +1,7 @@
 package kforce
 
+// TODO: deprecated -> REMOVE SOON
+
 import (
 	"flag"
 	"fmt"
