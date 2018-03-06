@@ -21,6 +21,7 @@ var rootCmd = &cobra.Command{
 	Long: `Kforce is a tool for creating and managing k8s cluster using kops yaml templates!
 		To get complete document, plz visit ->
 		https://github.com/ycliuhw/kops-cool`,
+	Args: cobra.MinimumNArgs(1),
 	PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
 		// Do Stuff Here
 		fmt.Println(fmt.Sprintf("\nHello, Kforce is made with 💝  by %s ✌️  ✌️  ✌️", Author))
@@ -44,8 +45,8 @@ func init() {
 	rootCmd.MarkPersistentFlagRequired("account_name")
 	rootCmd.PersistentFlags().StringVarP(&state.vpcID, "vpc_id", "", "", "Vpc ID: vpc-xxxxx")
 	rootCmd.MarkPersistentFlagRequired("vpc_id")
-	rootCmd.PersistentFlags().StringVarP(&state.region, "region", "r", "ap-southeast-2", "AWS region")
 	rootCmd.PersistentFlags().BoolVarP(&state.debug, "debug", "", false, "enable debug or not")
+	rootCmd.PersistentFlags().StringVarP(&state.region, "region", "r", "ap-southeast-2", "AWS region")
 
 	rootCmd.AddCommand(NewCmdNew(&state))
 	rootCmd.AddCommand(NewCmdApply(&state))

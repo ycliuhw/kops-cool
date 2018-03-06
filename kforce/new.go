@@ -37,7 +37,6 @@ func NewCmdNew(s *State) *cobra.Command {
 		Use:   "new",
 		Short: "kforce new",
 		Long:  `Deploy...`,
-		Args:  cobra.MinimumNArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
 			// c := New{}
 			fmt.Printf("newCmd: args -> %+v\n", strings.Join(args, " "))
