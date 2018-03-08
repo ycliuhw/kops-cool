@@ -11,6 +11,8 @@ import (
 
 // New - Command to initialize configuration/templates for a new cluster
 type New struct {
+	*State
+
 	force          bool
 	requiredPaths  []string
 	DirRawTemplate string
