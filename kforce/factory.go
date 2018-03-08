@@ -15,7 +15,7 @@ const (
 )
 
 // ENVS - valid environment definitions
-var ENVS = [4]string{s, u, p, m}
+var ENVS = [...]string{s, u, p, m} // ellipsis to use an implicit length
 
 // Command -
 type Command func(s *State) error
@@ -111,16 +111,28 @@ func InitializeState(state *State) error {
 	return nil
 }
 
-func (s *State) addPreHooks(f Command) {
-	s.preHooks = append(s.preHooks, f)
+// func (s *State) addPreHooks(f Command) {
+// 	s.preHooks = append(s.preHooks, f)
+// }
+
+func (s *State) addPreHooks(fs ...Command) { // variadic function
+	s.preHooks = append(s.preHooks, fs...)
 }
 
-func (s *State) addPostHooks(f Command) {
-	s.postHooks = append(s.postHooks, f)
+// func (s *State) addPostHooks(f Command) {
+// 	s.postHooks = append(s.postHooks, f)
+// }
+
+func (s *State) addPostHooks(fs ...Command) { // variadic function
+	s.postHooks = append(s.postHooks, fs...)
 }
 
-func (s *State) addRequiredPath(path string) {
-	s.requiredPaths = append(s.requiredPaths, path)
+// func (s *State) addRequiredPath(path string) {
+// 	s.requiredPaths = append(s.requiredPaths, path)
+// }
+
+func (s *State) addRequiredPath(paths ...string) { // variadic function
+	s.requiredPaths = append(s.requiredPaths, paths...)
 }
 
 func (s *State) ensurePaths() error {
