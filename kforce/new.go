@@ -19,7 +19,7 @@ type New struct {
 }
 
 func (c New) exec(s *State) error {
-	fmt.Print("this is New.exec()!")
+	fmt.Println("this is New.exec()!")
 	s.requiredPaths = c.requiredPaths
 
 	_, filename, _, ok := runtime.Caller(0)
@@ -46,7 +46,7 @@ func NewCmdNew(s *State) *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			var c SubCMD
 
-			new := New{requiredPaths: []string{s.DirTemplate, s.DirAddon, s.clusterTemplatePath}}
+			new := New{requiredPaths: []string{}}
 			c = new
 			fmt.Printf("newCmd: args -> %+v\n", strings.Join(args, " "))
 			fmt.Printf("newCmd: state -> %s\n", s)

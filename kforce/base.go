@@ -28,7 +28,7 @@ var rootCmd = &cobra.Command{
 		fmt.Println(strings.Repeat("-", 100))
 		fmt.Println()
 
-		err := InitializeState(&state)
+		err := InitializeState(state)
 		if err != nil {
 			return err
 		}
@@ -36,7 +36,7 @@ var rootCmd = &cobra.Command{
 	},
 }
 
-var state = State{}
+var state = &State{}
 
 func init() {
 	rootCmd.PersistentFlags().StringVarP(&state.env, "env", "e", "", "one of [u|s|p|m]")
@@ -48,11 +48,11 @@ func init() {
 	rootCmd.PersistentFlags().BoolVarP(&state.debug, "debug", "", false, "enable debug or not")
 	rootCmd.PersistentFlags().StringVarP(&state.region, "region", "r", "ap-southeast-2", "AWS region")
 
-	rootCmd.AddCommand(NewCmdNew(&state))
-	rootCmd.AddCommand(NewCmdApply(&state))
-	rootCmd.AddCommand(NewCmdBuild(&state))
-	rootCmd.AddCommand(NewCmdDiff(&state))
-	rootCmd.AddCommand(NewCmdInstall(&state))
+	rootCmd.AddCommand(NewCmdNew(state))
+	rootCmd.AddCommand(NewCmdApply(state))
+	rootCmd.AddCommand(NewCmdBuild(state))
+	rootCmd.AddCommand(NewCmdDiff(state))
+	rootCmd.AddCommand(NewCmdInstall(state))
 	rootCmd.AddCommand(versionCmd)
 
 }
