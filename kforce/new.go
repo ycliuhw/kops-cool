@@ -31,7 +31,7 @@ func (c *New) exec(s *State) error {
 	return nil
 }
 
-func (c New) getRequiredPaths(s *State) []string {
+func (c *New) getRequiredPaths(s *State) []string {
 	return c.requiredPaths
 }
 

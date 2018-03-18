@@ -19,7 +19,7 @@ func (c *Build) exec(s *State) error {
 	return nil
 }
 
-func (c Build) getRequiredPaths(s *State) []string {
+func (c *Build) getRequiredPaths(s *State) []string {
 	return append(s.requiredPaths, c.requiredPaths...)
 }
 
